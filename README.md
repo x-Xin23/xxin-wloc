@@ -239,7 +239,7 @@ npx wrangler login
 npm run deploy
 ```
 
-部署成功后会得到你自己的 Worker 地址（如 `https://wloc-spoofer.<你的子域名>.workers.dev`），用这个地址选点即可。
+部署成功后会得到你自己的 Worker 地址（如 `https://xxin-wloc.<你的子域名>.workers.dev` 或自定义域名），用这个地址选点即可。
 
 > 免费账户每天 10 万次请求，个人使用完全够用。
 
