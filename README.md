@@ -210,56 +210,52 @@ cd worker && npm install && npm test
 </details>
 
 <details>
-<summary><b>自部署 Worker（推荐）</b></summary>
+<summary><b>选点页面 / Worker</b></summary>
 
-公共选点页面有请求上限，可部署自己的实例：
+**大多数人不用自己部署。** 直接使用本仓库公开实例即可：
 
-- **本仓库实例**: `https://xxin-wloc.xxinmail.cc.cd/`
+- 选点页 / 链接解析：https://xxin-wloc.xxinmail.cc.cd/
 
-**一键部署（Workers）：**
+若希望独立部署、避免公共实例限额，可任选下面一种方式。
+
+**方式一：一键部署（推荐）**
 
 [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/x-Xin23/xxin-wloc/tree/main/worker)
 
-> 一键部署仅支持 Workers 模式，点击按钮后按提示授权即可完成部署。
+点击后按提示授权 Cloudflare 即可，无需克隆仓库。
 
-**手动部署（Workers）：**
+**方式二：命令行部署**
 
 ```bash
-# 1. 克隆仓库
 git clone https://github.com/x-Xin23/xxin-wloc.git
 cd xxin-wloc/worker
-
-# 2. 安装依赖
 npm install
-
-# 3. 登录 Cloudflare（首次需要）
 npx wrangler login
-
-# 4. 部署
 npm run deploy
 ```
 
-部署成功后会得到你自己的 Worker 地址（如 `https://xxin-wloc.<你的子域名>.workers.dev` 或自定义域名），用这个地址选点即可。
+部署成功后会得到你自己的地址（如 `https://<名称>.<子域>.workers.dev` 或自定义域名）。
 
-> 免费账户每天 10 万次请求，个人使用完全够用。
-
-**更新 Worker（网页粘贴，无需 wrangler login）：**
+**方式三：控制台粘贴（不用 wrangler login）**
 
 ```bash
-cd worker
+git clone https://github.com/x-Xin23/xxin-wloc.git
+cd xxin-wloc/worker
 npm install
 npm run bundle
-# 产物在 worker/bundled/index.js
+# 产物：worker/bundled/index.js
 ```
 
-打开 Cloudflare → Workers → `xxin-wloc` → **Edit code** → 全选删除 → 粘贴 `bundled/index.js` → **Deploy**。
+1. 打开 [Cloudflare Workers](https://dash.cloudflare.com/) → 创建 Worker  
+2. **Edit code** → 清空默认代码 → 粘贴 `bundled/index.js`  
+3. **Deploy**
 
-本仓库**不使用** GitHub Actions 自动部署，避免在 GitHub 上存放 Cloudflare Token。
+之后若更新了 `worker/src`，重新执行 `npm run bundle` 并再粘贴部署即可。
+
+> 免费账户每天约 10 万次请求，个人使用足够。
 
 <details>
 <summary>高级：Pages 部署</summary>
-
-Pages 部署不支持一键按钮，需要手动执行：
 
 ```bash
 git clone https://github.com/x-Xin23/xxin-wloc.git
@@ -273,7 +269,7 @@ npm run pages:deploy
 
 部署时会提示设置 production branch，输入 `main` 即可。部署成功后得到 `https://<项目名>.pages.dev` 地址。
 
-Pages 和 Workers 功能完全一致，按需选择即可。
+Pages 和 Workers 功能一致，按需选择。
 
 </details>
 
