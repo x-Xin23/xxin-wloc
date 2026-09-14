@@ -8,6 +8,8 @@
 
 > ⚠️ **iOS 27 beta 6 起，系统已禁止对 `gs-loc.apple.com` 进行 MITM 拦截。** 目前该版本及之后的 beta 版本暂时无法使用本项目，等待后续适配方案。
 
+详细使用教程参考：https://mp.weixin.qq.com/s/zMKZHL_enoewrCIDwveDvg
+
 ---
 
 ## 订阅地址
