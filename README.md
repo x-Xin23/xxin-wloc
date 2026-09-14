@@ -63,7 +63,7 @@ https://raw.githubusercontent.com/x-Xin23/xxin-wloc/refs/heads/main/modules/wloc
 
 ### 关于地图链接解析（worker）
 
-为了让苹果地图和高德走同一条流程，链接统一发给 `xxin-wloc.xxinmail.cc.cd/api/parse` 解析：
+为了让苹果地图和高德走同一条流程，链接统一发给 Worker 的 `/api/parse` 解析（推荐使用你自己部署的域名）：
 
 - **高德**：分享出来是短链，真实坐标只藏在 302 跳转的 `Location` 头里，且是 GCJ-02 偏移坐标。快捷指令既读不到跳转头、也难做坐标换算，所以由 worker 跟跳转 → 抠坐标 → GCJ-02→WGS84 → 返回经纬度。
 - **苹果地图**：链接里直接带 `coordinate=纬度,经度`，但在**中国大陆同样是 GCJ-02 偏移坐标**，所以和高德一样由 worker 做 GCJ-02→WGS84 换算后返回；境外坐标会自动跳过换算（`out_of_china` 判断）原样返回。除了统一坐标系，走同一接口也方便统一处理短链、文本夹链接、名称解码等。
@@ -75,7 +75,7 @@ https://raw.githubusercontent.com/x-Xin23/xxin-wloc/refs/heads/main/modules/wloc
 - 路由：[`worker/src/index.js`](worker/src/index.js)
 - 链接解析与坐标换算：[`worker/src/parse.js`](worker/src/parse.js)
 - 选点页面：[`worker/src/page.js`](worker/src/page.js)、[`worker/src/gcj-browser.js`](worker/src/gcj-browser.js)
-- 部署后把快捷指令里的 `xxin-wloc.xxinmail.cc.cd` 换成你自己的 worker 域名即可。
+- 部署后把快捷指令里的域名换成你自己的 worker 域名即可。
 
 解析逻辑带一套不联网的回归测试，改动后跑一下：
 
@@ -106,7 +106,7 @@ cd worker && npm install && npm test
 <summary><b>使用方法</b></summary>
 
 1. 订阅模块并启用 MITM
-2. 打开在线选点页面（公共 Worker，建议添加到主屏幕）
+2. 打开**你自己部署的**选点页面（建议添加到主屏幕）
 3. 地图选位置 / 搜索地名 / 粘贴地图链接
 4. 点击「储存到设备」
 5. 下次 Apple 定位触发时自动生效
@@ -210,19 +210,19 @@ cd worker && npm install && npm test
 </details>
 
 <details>
-<summary><b>选点页面 / Worker</b></summary>
+<summary><b>自部署 Worker（推荐）</b></summary>
 
-**大多数人不用自己部署。** 直接使用本仓库公开实例即可：
+公开实例可能有请求上限、隐私顾虑或可用性波动，**建议部署自己的 Worker**。免费 Cloudflare 账户每天约 10 万次请求，个人使用足够。
+
+示例实例（仅供体验，不保证长期可用）：
 
 - 选点页 / 链接解析：https://xxin-wloc.xxinmail.cc.cd/
-
-若希望独立部署、避免公共实例限额，可任选下面一种方式。
 
 **方式一：一键部署（推荐）**
 
 [![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/x-Xin23/xxin-wloc/tree/main/worker)
 
-点击后按提示授权 Cloudflare 即可，无需克隆仓库。
+点击后按提示授权 Cloudflare 即可，无需克隆仓库。部署完成后记下自己的 Worker 地址。
 
 **方式二：命令行部署**
 
@@ -252,7 +252,10 @@ npm run bundle
 
 之后若更新了 `worker/src`，重新执行 `npm run bundle` 并再粘贴部署即可。
 
-> 免费账户每天约 10 万次请求，个人使用足够。
+**部署后请做两件事：**
+
+1. 用**自己的** Worker 地址打开选点页，不要依赖他人实例  
+2. 若使用快捷指令，把里面的域名改成你的 Worker 域名
 
 <details>
 <summary>高级：Pages 部署</summary>
