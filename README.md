@@ -227,7 +227,7 @@ cd worker && npm install && npm test
 ```bash
 # 1. 克隆仓库
 git clone https://github.com/x-Xin23/xxin-wloc.git
-cd wloc/worker
+cd xxin-wloc/worker
 
 # 2. 安装依赖
 npm install
@@ -250,7 +250,7 @@ Pages 部署不支持一键按钮，需要手动执行：
 
 ```bash
 git clone https://github.com/x-Xin23/xxin-wloc.git
-cd wloc/worker
+cd xxin-wloc/worker
 npm install
 npm run pages:deploy
 ```
