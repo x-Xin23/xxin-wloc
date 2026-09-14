@@ -243,6 +243,25 @@ npm run deploy
 
 > 免费账户每天 10 万次请求，个人使用完全够用。
 
+**自动部署（可选）：**  
+仓库已带 GitHub Actions：`.github/workflows/deploy-worker.yml`。  
+在仓库 **Settings → Secrets and variables → Actions** 添加：
+
+| Secret | 说明 |
+|--------|------|
+| `CLOUDFLARE_API_TOKEN` | Cloudflare API Token（Workers Scripts: Edit） |
+| `CLOUDFLARE_ACCOUNT_ID` | Cloudflare 账户 ID（Workers 概览页右侧可复制） |
+
+之后只要 push 影响到 `worker/**` 的改动，Actions 会自动测试并部署 Worker。
+
+本地打包单文件（网页粘贴部署）：
+
+```bash
+cd worker
+npm run bundle
+# 产物在 worker/bundled/index.js
+```
+
 <details>
 <summary>高级：Pages 部署</summary>
 
