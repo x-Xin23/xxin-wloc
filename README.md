@@ -63,7 +63,7 @@ https://raw.githubusercontent.com/x-Xin23/xxin-wloc/refs/heads/main/modules/wloc
 
 ### 关于地图链接解析（worker）
 
-为了让苹果地图和高德走同一条流程，链接统一发给 `wloc-spoofer.wloc.workers.dev/api/parse` 解析：
+为了让苹果地图和高德走同一条流程，链接统一发给 `xxin-wloc.xxinmail.cc.cd/api/parse` 解析：
 
 - **高德**：分享出来是短链，真实坐标只藏在 302 跳转的 `Location` 头里，且是 GCJ-02 偏移坐标。快捷指令既读不到跳转头、也难做坐标换算，所以由 worker 跟跳转 → 抠坐标 → GCJ-02→WGS84 → 返回经纬度。
 - **苹果地图**：链接里直接带 `coordinate=纬度,经度`，但在**中国大陆同样是 GCJ-02 偏移坐标**，所以和高德一样由 worker 做 GCJ-02→WGS84 换算后返回；境外坐标会自动跳过换算（`out_of_china` 判断）原样返回。除了统一坐标系，走同一接口也方便统一处理短链、文本夹链接、名称解码等。
@@ -75,7 +75,7 @@ https://raw.githubusercontent.com/x-Xin23/xxin-wloc/refs/heads/main/modules/wloc
 - 路由：[`worker/src/index.js`](worker/src/index.js)
 - 链接解析与坐标换算：[`worker/src/parse.js`](worker/src/parse.js)
 - 选点页面：[`worker/src/page.js`](worker/src/page.js)、[`worker/src/gcj-browser.js`](worker/src/gcj-browser.js)
-- 部署后把快捷指令里的 `wloc-spoofer.wloc.workers.dev` 换成你自己的 worker 域名即可。
+- 部署后把快捷指令里的 `xxin-wloc.xxinmail.cc.cd` 换成你自己的 worker 域名即可。
 
 解析逻辑带一套不联网的回归测试，改动后跑一下：
 
@@ -212,10 +212,9 @@ cd worker && npm install && npm test
 <details>
 <summary><b>自部署 Worker（推荐）</b></summary>
 
-公共选点页面有请求上限，建议部署自己的实例：
+公共选点页面有请求上限，可部署自己的实例：
 
-- **Workers**: `https://xxin-wloc.<你的子域名>.workers.dev/`
-- **Pages**: `https://xxin-wloc-pages.pages.dev/`
+- **本仓库实例**: `https://xxin-wloc.xxinmail.cc.cd/`
 
 **一键部署（Workers）：**
 
